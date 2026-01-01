@@ -52,3 +52,7 @@ This analogy introduces a new critical invariant for the system to monitor. It i
 -   **Nematic Liquid Crystal State (0.3 <= S <= 0.95):** The ideal phase. The models are directionally aligned (learning the same general features) but maintain local diversity (are not identical). This state provides resilience against adversarial attacks and the ability to adapt to new information.
 
 The `GeometricValidator` now implements the `verify_nematic_phase` method to calculate the nematic order parameter (S) of the weight matrix and ensure the system remains in this optimal, bio-analogous state.
+
+### A Note on Metaphor vs. Specification
+
+As per the Architect's Final Certification (v3.2-Sigma), certain terms used in this documentation are powerful metaphors, not literal technical specifications. Specifically, **"Infinite Hyperbolic Topology"** refers to the mathematical property of **constant negative curvature** in the learned manifold, which allows for vast and efficient embedding of hierarchical data. It does **not** imply that the system possesses infinite physical memory or size. All topological features, such as Betti numbers, are constrained by the physical hardware limits of the system.

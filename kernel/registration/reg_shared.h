@@ -25,5 +25,8 @@ void sched_register_model(struct task_struct *tsk, struct model_metadata *meta);
 int reg_validator_request_check(struct task_struct *tsk, float *hidden,
                                        int n, int dim, float acc);
 
+// Function from the coherence module
+float reg_compute_coherence(void *node_states, int num_nodes);
+
 
 #endif /* _TIM_REG_SHARED_H */

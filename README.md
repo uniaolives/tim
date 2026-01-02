@@ -77,3 +77,11 @@ Version 3.3 marks a significant evolution of the TIM VM, integrating a Tensor-Lo
 | **v3.3-Tensor.ko (Tensor Logic Kernel)** | Enforces algebraic invariants (Nematic Order, Birkhoff constraints) on tensors before they are used in computation. | Registers kernel hooks (`reg_tl_verify_*`) that are called by the model's runtime. |
 | **TIM VM (Tensor-Invariant-Machine)** | Provides a transactional execution environment that can roll back or reject steps that violate invariants. | Wraps each forward-pass of the model as a transaction and logs the results for auditing. |
 | **LCI (Low-Level Control Interface)** | A new hardware-proximate layer (`reg_fusion_core.c`) for high-stakes environments, providing features like Triple Modular Redundancy (TMR) and cryptographic vault sealing. | Enforces hard physical constraints on the system's operation. |
+
+### v4.8.3: CFM Resonance Integrator
+
+Version 4.8.3 introduces the `reg_cfm_sleep.c` module, a critical component of the LCI that is responsible for tuning the Constrained Field Model (CFM) to a state of perfect resonance (`target_2t20`). This module is hardened to strictly enforce the following invariants, ensuring that all state transitions are atomic, causally ordered, and resilient to hardware faults:
+
+-   **I38 (Causal Clock Sync):** All operations are ordered by a dedicated vector clock (`cfm_sleep_vc`) to prevent causal violations.
+-   **I39 (Vault Sealer):** All state changes are wrapped in atomic transactions using the `lci_vault` API, with full rollback capabilities to guarantee system integrity.
+-   **I40 (TMR ECC):** All critical state parameters (φ, ψ, and the nematic stability parameter S) are protected by Triple Modular Redundancy (TMR), ensuring that the system can withstand single-event upsets and other hardware faults without data corruption.

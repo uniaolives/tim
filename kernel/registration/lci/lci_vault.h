@@ -4,22 +4,48 @@
 
 #include <linux/types.h>
 
+enum vault_status {
+    VAULT_UNSEALED,
+    VAULT_SEALED
+};
+
 /**
  * lci_vault_sealer_status - Placeholder for checking the vault's sealed status.
  *
- * In a real High-Assurance system, this would check a hardware-backed
- * cryptographic seal (e.g., via a TPM or a custom security enclave) to
- * ensure that critical system parameters have not been tampered with.
- *
  * Returns:
- *  true if the vault is unsealed and operational.
- *  false if the vault is sealed (locked down).
+ *  VAULT_UNSEALED if the vault is operational.
+ *  VAULT_SEALED if the vault is locked down.
  */
-static inline bool lci_vault_sealer_status(void)
+static inline enum vault_status lci_vault_sealer_status(void)
 {
-    // This is a stub. For this prototype, we will assume the vault is
-    // always unsealed and ready for operations.
-    return true;
+    // This is a stub. Assume the vault is always unsealed for this prototype.
+    return VAULT_UNSEALED;
+}
+
+/**
+ * lci_vault_begin_transaction - Begins an atomic transaction.
+ */
+static inline int lci_vault_begin_transaction(void)
+{
+    // Stub. Returns 0 for success.
+    return 0;
+}
+
+/**
+ * lci_vault_commit - Commits an atomic transaction.
+ */
+static inline int lci_vault_commit(void)
+{
+    // Stub. Returns 0 for success.
+    return 0;
+}
+
+/**
+ * lci_vault_rollback - Rolls back an atomic transaction.
+ */
+static inline void lci_vault_rollback(void)
+{
+    // Stub.
 }
 
 #endif /* _LCI_VAULT_H */

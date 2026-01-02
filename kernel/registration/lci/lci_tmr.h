@@ -5,29 +5,36 @@
 #include <linux/types.h>
 #include <linux/math.h>
 
-// Declare the Triple Modular Redundancy memory regions.
-// This would typically be defined in a separate C file and linked.
-// For the purpose of this prototype, we will define it here.
-static uint64_t fusion_params_tmr[3];
+/**
+ * lci_tmr_init - Initializes a TMR state object.
+ * @state: The TMR state object to initialize.
+ * @size: The size of the data being protected.
+ */
+static inline void lci_tmr_init(struct lci_tmr_state *state, size_t size)
+{
+    // This is a stub. A real implementation would allocate and map
+    // the hardware-replicated memory regions.
+    memset(state, 0, sizeof(struct lci_tmr_state));
+}
 
 /**
  * lci_tmr_write64 - Placeholder for a hardware-assisted TMR write.
- * @addr: The TMR memory address to write to.
+ * @state: The TMR state object to write to.
  * @value: The 64-bit value to write.
- *
- * In a real system, this would write the value to three independent
- * memory banks.
  */
-static inline void lci_tmr_write64(uint64_t *addr, double value)
+static inline void lci_tmr_write64(struct lci_tmr_state *state, double value)
 {
-    // This is a stub. We simulate the write by simply storing the value.
-    // The double is cast to a 64-bit integer for storage.
-    *addr = *((uint64_t*)&value);
+    // This is a stub. We simulate the write by storing the value in all three
+    // memory regions. The double is cast to a 64-bit integer for storage.
+    uint64_t val_int = *((uint64_t*)&value);
+    state->state[0] = val_int;
+    state->state[1] = val_int;
+    state->state[2] = val_int;
 }
 
 /**
  * lci_tmr_read64 - Placeholder for a hardware-assisted TMR read with ECC.
- * @addr: The TMR memory address to read from.
+ * @state: The TMR state object to read from.
  *
  * In a real system, this would read from three independent memory banks
  * and return the result of a majority vote, transparently correcting
@@ -36,10 +43,14 @@ static inline void lci_tmr_write64(uint64_t *addr, double value)
  * Returns:
  *  The majority-voted 64-bit value.
  */
-static inline double lci_tmr_read64(uint64_t *addr)
+static inline double lci_tmr_read64(struct lci_tmr_state *state)
 {
-    // This is a stub. We simulate the read by simply returning the stored value.
-    uint64_t val_int = *addr;
+    // This is a stub. We simulate the read by checking for consistency.
+    // If the values are inconsistent, we return NaN to signal a fault.
+    if (state->state[0] != state->state[1] || state->state[1] != state->state[2]) {
+        return NAN;
+    }
+    uint64_t val_int = state->state[0];
     return *((double*)&val_int);
 }
 

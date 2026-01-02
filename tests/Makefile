@@ -1,5 +1,6 @@
 # tests/Makefile
 obj-m += tim_stress_trigger.o
+obj-m += test_tensor_invariants.o
 
 # Diretório do Kernel Headers
 KDIR ?= /lib/modules/$(shell uname -r)/build

@@ -56,3 +56,24 @@ The `GeometricValidator` now implements the `verify_nematic_phase` method to cal
 ### A Note on Metaphor vs. Specification
 
 As per the Architect's Final Certification (v3.2-Sigma), certain terms used in this documentation are powerful metaphors, not literal technical specifications. Specifically, **"Infinite Hyperbolic Topology"** refers to the mathematical property of **constant negative curvature** in the learned manifold, which allows for vast and efficient embedding of hierarchical data. It does **not** imply that the system possesses infinite physical memory or size. All topological features, such as Betti numbers, are constrained by the physical hardware limits of the system.
+
+---
+
+## v3.3: The Tensor-Logic Architecture
+
+Version 3.3 marks a significant evolution of the TIM VM, integrating a Tensor-Logic Kernel to create a self-auditing, hallucination-resistant reasoning system. This architecture couples a large language model (e.g., Llama-3.1-405B) with kernel-level invariant enforcement, enabling a new level of trust and stability in generative AI.
+
+### Core Goals
+
+-   **No Hallucinations:** By enforcing strict algebraic and geometric invariants on the model's internal representations (tensors), the system can reject computations that are likely to lead to hallucinatory or nonsensical outputs.
+-   **Infinite Context:** Through techniques like Tucker decomposition of attention tensors, the system can handle arbitrarily long contexts while keeping the effective rank of the computation bounded, achieving O(1) memory per token.
+-   **Self-Audit:** Every computational step is wrapped in a TIM VM transaction. If an invariant is violated, the transaction is rolled back, and a proof of the violation is logged. This creates a fully auditable and verifiable reasoning process.
+
+### Key Components
+
+| Component | Role | Integration points |
+|-----------|------|---------------------|
+| **Large Language Model (e.g., Llama-3.1)** | Provides the raw generative and embedding capabilities. | The model's embedding and attention tensors are exposed to the kernel for verification. |
+| **v3.3-Tensor.ko (Tensor Logic Kernel)** | Enforces algebraic invariants (Nematic Order, Birkhoff constraints) on tensors before they are used in computation. | Registers kernel hooks (`reg_tl_verify_*`) that are called by the model's runtime. |
+| **TIM VM (Tensor-Invariant-Machine)** | Provides a transactional execution environment that can roll back or reject steps that violate invariants. | Wraps each forward-pass of the model as a transaction and logs the results for auditing. |
+| **LCI (Low-Level Control Interface)** | A new hardware-proximate layer (`reg_fusion_core.c`) for high-stakes environments, providing features like Triple Modular Redundancy (TMR) and cryptographic vault sealing. | Enforces hard physical constraints on the system's operation. |

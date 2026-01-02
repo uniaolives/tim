@@ -28,5 +28,9 @@ int reg_validator_request_check(struct task_struct *tsk, float *hidden,
 // Function from the coherence module
 float reg_compute_coherence(void *node_states, int num_nodes);
 
+// Functions from the tensor-logic module
+int reg_tl_verify_nematic(const float* R, size_t d, float* out_S);
+int reg_tl_verify_birkhoff(const float* A, size_t d, float epsilon);
+
 
 #endif /* _TIM_REG_SHARED_H */

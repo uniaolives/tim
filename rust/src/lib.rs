@@ -8,6 +8,7 @@ use sasc_governance::Cathedral;
 use sasc_governance::types::{VerificationContext};
 
 pub mod bootstrap;
+pub mod monitor;
 
 pub struct TruthClaim {
     pub statement: String,

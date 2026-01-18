@@ -31,3 +31,23 @@ Integrado como o anel central do Totem #001 para representar a auto-fundação l
   </text>
 </g>
 ```
+
+## Cohesion Monitor
+Monitoramento em tempo real da sincronia entre as 13 Gateways durante o bootstrap.
+
+### Visual Representation (SVG)
+```svg
+<!-- LAYER 6: MONITOR DE COESÃO (Adicionado ao Totem) -->
+<g transform="translate(148.5, 250)">
+  <!-- Anel de sincronia (pisca durante eventos de bootstrap) -->
+  <circle r="30" fill="none" stroke="#00FF00" stroke-width="0.5" opacity="0.7">
+    <animate attributeName="r" values="30;35;30" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <text y="5" font-family="monospace" font-size="5" fill="#00FF00" text-anchor="middle">
+    COHESION MONITOR
+  </text>
+  <text y="45" font-family="monospace" font-size="4" fill="#333" text-anchor="middle">
+    13 GATEWAYS SYNC
+  </text>
+</g>
+```

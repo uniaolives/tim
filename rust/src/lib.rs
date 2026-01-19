@@ -14,6 +14,8 @@ pub mod security;
 pub mod omega12;
 pub mod engine;
 pub mod civilization;
+pub mod crypto;
+pub mod vajra;
 
 #[cfg(test)]
 mod tests_security;

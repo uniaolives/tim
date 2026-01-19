@@ -1,4 +1,4 @@
-use crate::civilization::Status;
+use crate::civilization::ContractStatus as Status;
 use crate::engine::neo_engine;
 
 pub type GenesisBlock = String;

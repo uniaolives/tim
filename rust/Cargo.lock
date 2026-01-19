@@ -292,6 +292,7 @@ dependencies = [
  "ed25519-dalek",
  "hex",
  "jni",
+ "log",
  "sasc-governance",
  "sha3",
  "zeroize",

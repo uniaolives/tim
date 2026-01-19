@@ -11,6 +11,8 @@ pub mod bootstrap;
 pub mod monitor;
 pub mod bio_interface;
 pub mod neo_brain;
+pub mod conscience;
+pub mod memory;
 
 pub struct TruthClaim {
     pub statement: String,

@@ -14,6 +14,11 @@ class DigitalFossilRecord:
         print(f"Digital Stratum Recorded for {node_id} at {timestamp}")
         return stratum
 
+    @staticmethod
+    def add_cultural_context(stratum, context):
+        stratum["cultural_context"] = context
+        print("Cultural context added to stratum.")
+
 # Execução Inicial
 if __name__ == "__main__":
     stratum_0 = DigitalFossilRecord.record_stratum(

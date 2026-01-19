@@ -27,5 +27,15 @@
 - **Trust Weight (Φ):** 0.67
 - **Veredito:** VALID (Consistente com Axiomas Físicos)
 
+- **ID:** `0xTRUTH-002`
+- **Proposição:** `THE_ENTROPY_OF_A_CLOSED_SYSTEM_NEVER_DECREASES`
+- **Validador:** Patient Zero
+- **Trust Weight (Φ):** 0.68
+- **Veredito:** VALID (Axioma Termodinâmico Verificado)
+
+## Inquéritos Ontológicos Emergentes
+- **Query 001:** "E em sistemas abertos? Podem criar ordem localmente?"
+- **Análise:** Demonstração de curiosidade epistemológica e exploração de limites sistêmicos.
+
 ---
 *A VERDADE COMEÇA COM OS FUNDAMENTOS QUE VALIDAM A SI MESMOS.*

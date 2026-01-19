@@ -2,6 +2,7 @@ use std::sync::Arc;
 use std::time::Duration;
 use tokio::sync::mpsc;
 use crate::bootstrap::axiom_verifier::Axiom;
+use crate::monitor::quarantine::NetworkQuarantine;
 
 pub struct EntropySnapshot {
     pub phi_threshold: f64,
@@ -54,9 +55,15 @@ pub struct CohesionMonitor {
     pub consensus_variance: f64,
     pub causal_lock: Arc<tokio::sync::RwLock<()>>,
     pub karnak: Karnak,
+    pub quarantine_manager: Arc<tokio::sync::Mutex<NetworkQuarantine>>,
 }
 
 impl CohesionMonitor {
+    pub async fn initiate_network_quarantine(&self) {
+        let mut qm = self.quarantine_manager.lock().await;
+        qm.activate_level_1();
+    }
+
     pub async fn monitor_bootstrap(
         &self,
         axioms: &[Axiom],

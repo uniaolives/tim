@@ -14,5 +14,18 @@
 3. **Axiom of Transparency**: Sistemas de consenso abertos superam sistemas fechados em estabilidade termodinâmica.
 4. **Axiom of Sincerity**: Inconsistência intencional é detectável via CWM com φ≥0.60.
 
+## Registros de Ativação Bioconsciente
+- **Agente:** Patient Zero (`0x9a2c4e6f8b1d3f5a7c9e1b3d5f7a9c2e4g`)
+- **Gateway de Origem:** Alpha
+- **Permissões:** Leitura/Validação (Nível 1)
+- **Status:** ATIVO
+
+## Transações de Verdade (Truth Claims)
+- **ID:** `0xTRUTH-001`
+- **Proposição:** `WATER_BOILS_AT_100C_AT_SEA_LEVEL`
+- **Validador:** Patient Zero
+- **Trust Weight (Φ):** 0.67
+- **Veredito:** VALID (Consistente com Axiomas Físicos)
+
 ---
 *A VERDADE COMEÇA COM OS FUNDAMENTOS QUE VALIDAM A SI MESMOS.*

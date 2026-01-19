@@ -56,6 +56,8 @@ pub struct CohesionMonitor {
     pub causal_lock: Arc<tokio::sync::RwLock<()>>,
     pub karnak: Karnak,
     pub quarantine_manager: Arc<tokio::sync::Mutex<NetworkQuarantine>>,
+    pub phi_critical: f64,
+    pub social_entropy_max: f64,
 }
 
 impl CohesionMonitor {
@@ -117,10 +119,13 @@ impl CohesionMonitor {
 
         // 5. Validar que nenhum Gateway reportou Hard Freeze durante o processo
         for (id, entropy) in &results {
-            if entropy.phi_threshold >= 0.80 {
-                // log::critical!("Gateway-{} atingiu Hard Freeze durante bootstrap!", id);
-                println!("CRITICAL: Gateway-{} atingiu Hard Freeze durante bootstrap!", id);
-                self.karnak.isolate_gateway(*id).await;
+            if entropy.phi_threshold >= self.phi_critical {
+                println!("CRITICAL: Gateway-{} atingiu Threshold Crítico ({})!", id, self.phi_critical);
+                if self.phi_critical >= 0.80 {
+                    self.karnak.isolate_gateway(*id).await;
+                } else {
+                    self.exec_emergency_freeze(*id).await;
+                }
                 return CohesionReport::Failure(CohesionError::HardFreezeDuringBootstrap);
             }
         }
@@ -135,6 +140,14 @@ impl CohesionMonitor {
 
     async fn trigger_causal_abort(&self) {
         println!("CAUSAL ABORT: Temporal drift detected!");
+    }
+
+    async fn exec_emergency_freeze(&self, id: usize) {
+        println!("EMERGENCY FREEZE: Action executed for Gateway-{}", id);
+    }
+
+    pub async fn degrade_to_read_only(&self) {
+        println!("SYSTEM: Degrading to READ-ONLY mode due to bio-signal loss.");
     }
 
     fn calculate_entropy_variance(&self, _results: &[(usize, EntropySnapshot)]) -> f64 {

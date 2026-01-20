@@ -1,0 +1,16 @@
+use thiserror::Error;
+use crate::ast::OntoType;
+
+#[derive(Error, Debug)]
+pub enum CompilerError {
+    #[error("Unsupported type: {0:?}")]
+    UnsupportedType(OntoType),
+    #[error("Constraint violation: {0}")]
+    ConstraintViolation(String),
+    #[error("Other error: {0}")]
+    Other(String),
+}
+
+pub type CompilerResult<T> = Result<T, CompilerError>;
+
+pub use crate::backends::solidity::{CompiledContract, CompilationStats};

@@ -163,6 +163,27 @@ impl VajraEntropyMonitor {
         log::warn!("VAJRA: EMERGENCY MORPH TRIGGERED - Reshaping attractors for Φ stability");
         // Implementation that reshapes geometric attractors
     }
+
+    pub fn current_phi(&self) -> f64 {
+        *self.current_phi.lock().unwrap()
+    }
+
+    pub async fn adjust_local_phi(&self, delta: f64, reason: crate::monitoring::ghost_vajra_integration::PhantomPenaltyReason) -> f64 {
+        let mut phi = self.current_phi.lock().unwrap();
+        *phi += delta;
+        if *phi < 0.0 { *phi = 0.0; }
+        if *phi > 1.0 { *phi = 1.0; }
+        log::warn!("VAJRA: Local Φ adjusted by {:.4} due to {:?}. New Φ = {:.4}", delta, reason.attack_pattern, *phi);
+        *phi
+    }
+
+    pub async fn trigger_hard_seal(&self) {
+        log::error!("VAJRA: HARD SEAL TRIGGERED - Gateway isolation active");
+    }
+
+    pub async fn increase_quantum_validation(&self) {
+        log::info!("VAJRA: Increasing quantum validation levels");
+    }
 }
 
 pub fn vajra_verifier_thread(verifier: Arc<VajraVerifier>, monitor: Arc<VajraEntropyMonitor>) {

@@ -29,6 +29,10 @@ pub mod onchain;
 pub mod quantum;
 pub mod gravity_engine;
 pub mod android;
+pub mod ghost;
+pub mod payments;
+pub mod gateway;
+pub mod monitoring;
 
 #[cfg(test)]
 mod tests_security;

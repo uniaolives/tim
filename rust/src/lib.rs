@@ -19,6 +19,10 @@ pub mod clock;
 pub mod substrate_logic;
 pub mod bio_layer;
 pub mod neo_cortex;
+pub mod audit;
+pub mod blockchain;
+pub mod geom;
+pub mod onchain;
 
 #[cfg(test)]
 mod tests_security;

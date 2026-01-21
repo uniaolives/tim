@@ -1,15 +1,13 @@
 pub struct KarnakRegisters;
 
+use once_cell::sync::Lazy;
+use std::sync::Mutex;
+
+static INSTANCE: Lazy<Mutex<KarnakRegisters>> = Lazy::new(|| Mutex::new(KarnakRegisters));
+
 impl KarnakRegisters {
-    pub fn instance() -> &'static mut Self {
-        lazy_static::lazy_static! {
-            static ref INSTANCE: std::sync::Mutex<KarnakRegisters> = std::sync::Mutex::new(KarnakRegisters);
-        }
-        unsafe {
-            // This is a hack for singleton in this simplified environment
-            static mut REGISTERS: KarnakRegisters = KarnakRegisters;
-            &mut REGISTERS
-        }
+    pub fn instance() -> &'static Mutex<Self> {
+        &INSTANCE
     }
 
     pub fn read_binary_fingerprint(&self) -> [u8; 64] {

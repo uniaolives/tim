@@ -194,6 +194,25 @@ impl VajraEntropyMonitor {
     pub fn validate_response_coherence(&self, _prompt: &str, _response: &str, _similarity: f64) -> Result<f64, String> {
         Ok(0.0001)
     }
+
+    pub fn get_current_metrics(&self) -> Option<VajraMetrics> {
+        Some(VajraMetrics {
+            phi_score: *self.current_phi.lock().unwrap(),
+            lyapunov_delta: 1e-7,
+            entropy: 0.72,
+            coherence_variance: 0.000032,
+            ghost_density: 0.0001,
+        })
+    }
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct VajraMetrics {
+    pub phi_score: f64,
+    pub lyapunov_delta: f64,
+    pub entropy: f64,
+    pub coherence_variance: f64,
+    pub ghost_density: f64,
 }
 
 pub fn vajra_verifier_thread(verifier: Arc<VajraVerifier>, monitor: Arc<VajraEntropyMonitor>) {

@@ -32,6 +32,7 @@ pub mod cyber_oncology;
 pub mod hypervisor;
 pub mod memory;
 pub mod karnak;
+pub mod kpi_evaluator;
 
 #[cfg(test)]
 mod tests_security;
@@ -41,6 +42,9 @@ mod tests_cyber_oncology;
 
 #[cfg(test)]
 mod tests_continuum_memory;
+
+#[cfg(test)]
+mod tests_kpi_evaluator;
 
 pub struct TruthClaim {
     pub statement: String,

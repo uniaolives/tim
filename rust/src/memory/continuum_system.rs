@@ -233,7 +233,6 @@ pub struct SemanticCMS {
     pub embedding_mock: Arc<EmbeddingMock>,
 
     /// External systems
-    pub karnak_registers: &'static mut KarnakRegisters,
     pub vajra_monitor: Option<Arc<VajraEntropyMonitor>>,
     pub sasc_cathedral: Option<Arc<SASCCathedral>>,
 
@@ -279,7 +278,6 @@ impl SemanticCMS {
             ltm: Arc::new(RwLock::new(LTMemory::new(ltm_size, 0.95))),
             faiss_mock: Arc::new(RwLock::new(Vec::new())),
             embedding_mock: Arc::new(EmbeddingMock),
-            karnak_registers: KarnakRegisters::instance(),
             vajra_monitor,
             sasc_cathedral,
             similarity_threshold,
@@ -403,7 +401,7 @@ impl SemanticCMS {
         let key = self.compute_blake3_hash(prompt.as_bytes());
 
         // Get current Karnak fingerprint
-        let karnak_fingerprint = self.karnak_registers.read_binary_fingerprint();
+        let karnak_fingerprint = KarnakRegisters::instance().lock().unwrap().read_binary_fingerprint();
 
         // Generate SASC attestation if requested
         let sasc_attestation = if generate_attestation {
@@ -498,7 +496,7 @@ impl SemanticCMS {
                 )?;
 
                 // Additional check: Karnak fingerprint must match current state
-                let current_fingerprint = self.karnak_registers.read_binary_fingerprint();
+                let current_fingerprint = KarnakRegisters::instance().lock().unwrap().read_binary_fingerprint();
                 let fingerprint_valid = entry.karnak_fingerprint == current_fingerprint;
 
                 return Ok(valid && fingerprint_valid);

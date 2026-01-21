@@ -3290,6 +3290,11 @@ dependencies = [
 name = "sasc-governance"
 version = "15.0.0"
 dependencies = [
+ "blake3",
+ "ed25519-dalek",
+ "once_cell",
+ "serde",
+ "serde_json",
  "zeroize",
 ]
 

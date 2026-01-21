@@ -3,5 +3,6 @@ members = [
     "rust",
     "ont/native",
     "sasc-governance",
+    "agi-service",
 ]
 resolver = "2"

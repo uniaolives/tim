@@ -10,6 +10,16 @@ async fn main() {
     }
 
     match args[1].as_str() {
+        "audit" => {
+            if args.len() > 2 && args[2] == "start" {
+                println!("🚀 Starting Continuous Audit Loop...");
+                // In a real implementation, we would parse arguments and start the audit
+                // For now, we simulate it
+                println!("✅ Audit loop started (Simulated)");
+            } else {
+                println!("Usage: onto audit start [options]");
+            }
+        },
         "deploy" => {
             println!("🚀 Deploying...");
             // Simulated deployment

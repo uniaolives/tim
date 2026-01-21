@@ -26,6 +26,9 @@ pub mod audit;
 pub mod blockchain;
 pub mod geom;
 pub mod onchain;
+pub mod quantum;
+pub mod gravity_engine;
+pub mod android;
 
 #[cfg(test)]
 mod tests_security;

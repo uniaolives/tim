@@ -3312,6 +3312,7 @@ dependencies = [
  "sha3",
  "thiserror 1.0.69",
  "tokio",
+ "windows",
  "x509-parser",
  "zeroize",
 ]

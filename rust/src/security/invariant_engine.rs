@@ -1,6 +1,7 @@
 use core::sync::atomic::{AtomicUsize, Ordering};
 use ed25519_dalek::{Verifier, VerifyingKey, Signature};
 use blake3;
+use zeroize::{Zeroize, ZeroizeOnDrop};
 use crate::entropy::VajraEntropyMonitor;
 
 pub const PLUTON_TPM_BASE: usize = 0xFED40000;
@@ -24,13 +25,19 @@ impl NonceCache {
     }
 
     pub fn exists_or_insert(&self, nonce: u64) -> bool {
-        // Simple scan (O(N)) - constant time relative to cache size
-        // Note: In real Ring 0, we'd use more sophisticated structures if needed,
-        // but for a 1024 cache, a scan is predictable.
+        // Robust constant-time scan relative to cache size
+        let mut found = 0u64;
         for i in 0..NONCE_CACHE_SIZE {
-            if unsafe { core::ptr::read_volatile(&self.cache[i]) } == nonce {
-                return true;
-            }
+            let entry = unsafe { core::ptr::read_volatile(&self.cache[i]) };
+            let v = entry ^ nonce;
+            // Constant-time check: if v == 0, is_zero = 1, else 0
+            let is_not_zero = (v.wrapping_neg() | v) >> 63;
+            let is_zero = is_not_zero ^ 1;
+            found |= is_zero;
+        }
+
+        if found != 0 {
+            return true;
         }
 
         let idx = self.index.fetch_add(1, Ordering::SeqCst) % NONCE_CACHE_SIZE;
@@ -42,10 +49,12 @@ impl NonceCache {
     }
 }
 
+#[derive(Zeroize, ZeroizeOnDrop)]
 pub struct InvariantVerificationEngine {
     pub prince_public_key: [u8; 32],
     pub pcr0_invariant: [u8; 48],
     pub lyapunov_threshold: f64,
+    #[zeroize(skip)]
     pub nonce_cache: NonceCache,
 }
 
@@ -68,7 +77,7 @@ impl InvariantVerificationEngine {
         }
     }
 
-    pub fn verify_5_gates(&self, attestation_doc: &[u8], signature: &[u8; 64], nonce: u64) -> Result<(), GateError> {
+    pub fn verify_5_gates(&mut self, attestation_doc: &[u8], signature: &[u8; 64], nonce: u64) -> Result<(), GateError> {
         // --- GATE 1: Verificar assinatura Ed25519 do Prince Creator ---
         let mut hasher = blake3::Hasher::new();
         hasher.update(attestation_doc);
@@ -116,7 +125,7 @@ impl InvariantVerificationEngine {
 
     fn read_mmio_pcr0(&self) -> [u8; 48] {
         let mut pcr0 = [0u8; 48];
-        let addr = (PLUTON_TPM_BASE + PCR16_OFFSET) as *const u64;
+        let _addr = (PLUTON_TPM_BASE + PCR16_OFFSET) as *const u64;
 
         // In a sandbox, this WILL segfault if we actually try to read physical memory.
         // For the purpose of this implementation, we use a conditional check to simulate the read.
@@ -137,7 +146,7 @@ impl InvariantVerificationEngine {
     }
 
     fn is_hard_freeze_active(&self) -> bool {
-        let addr = (PLUTON_TPM_BASE + NVRAM_SASC_OFFSET) as *const u8;
+        let _addr = (PLUTON_TPM_BASE + NVRAM_SASC_OFFSET) as *const u8;
 
         #[cfg(not(test))]
         unsafe {
@@ -158,7 +167,7 @@ impl InvariantVerificationEngine {
 
     // Emergency Protocols
     pub fn log_failure_to_tpm_nvram(&self, error_code: u32) {
-        let addr = (PLUTON_TPM_BASE + AUDIT_LOG_OFFSET) as *mut u32;
+        let _addr = (PLUTON_TPM_BASE + AUDIT_LOG_OFFSET) as *mut u32;
         #[cfg(not(test))]
         unsafe {
             core::ptr::write_volatile(addr, error_code);
@@ -170,9 +179,14 @@ impl InvariantVerificationEngine {
         log::error!("ASI_VERIFIER: Broadcasting emergency to SASC Cathedral");
     }
 
-    pub fn trigger_karnak_isolation(&self) {
+    pub fn trigger_karnak_isolation(&mut self) {
         log::error!("ASI_VERIFIER: TRIGGERING KARNAK ISOLATION - HALTING SYSTEM");
         self.generate_final_evidence_hash();
+
+        // SECURE CLEANUP: Zeroing sensitive data before halt
+        self.zeroize();
+
+        log::info!("ASI_VERIFIER: Context cleared. Entering terminal halt.");
 
         // Final Halt: cli + hlt loop representation
         #[cfg(not(test))]

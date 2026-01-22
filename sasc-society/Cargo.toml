@@ -1,0 +1,20 @@
+[package]
+name = "sasc-society"
+version = "30.10.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["full"] }
+blake3 = "1.5"
+pqcrypto-dilithium = "0.5"
+pqcrypto-traits = "0.3"
+thiserror = "1.0"
+log = "0.4"
+rayon = "1.8"
+ndarray = "0.15"
+rand = "0.8"
+async-trait = "0.1"
+pqcrypto-kyber = "0.6"
+hex = "0.4"

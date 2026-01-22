@@ -166,7 +166,7 @@ impl VajraEntropyMonitor {
         Ok(PhiStabilityProof { lambda: 0.00006 })
     }
 
-    pub fn update_from_enclave(&self, _doc: &aws_nitro_enclaves_cose::CoseSign1) -> Result<f64, &'static str> {
+    pub fn update_from_enclave(&self, _doc: &[u8]) -> Result<f64, &'static str> {
         // Implementation that updates entropy from enclave attestation
         Ok(0.76)
     }

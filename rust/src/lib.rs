@@ -43,6 +43,7 @@ pub mod cosmogenesis;
 pub mod ontological_commitment;
 pub mod multiversal;
 pub mod omicron_singularity;
+pub mod omicron;
 
 pub use ontological_commitment::*;
 pub use multiversal::*;
@@ -65,6 +66,9 @@ mod tests_cosmogenesis;
 
 #[cfg(test)]
 mod tests_omicron;
+
+#[cfg(test)]
+mod tests_observability;
 
 pub struct TruthClaim {
     pub statement: String,

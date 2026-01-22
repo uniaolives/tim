@@ -7,3 +7,5 @@ pub mod karnak_sealer;
 pub mod quantum_phi;
 pub mod quantum_attestation;
 pub mod reality_anchor;
+pub mod observability_monitor;
+pub mod sasc_gateway;

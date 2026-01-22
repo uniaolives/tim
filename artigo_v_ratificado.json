@@ -14,5 +14,12 @@
     "hard_freeze": false
   },
   "timestamp": "2024-10-09T00:00:00Z",
-  "source": "Nature (Science, 2024-10-09)"
+  "source": "Nature (Science, 2024-10-09)",
+  "stellarator_topology": {
+    "invariant_id": "I-STELLARATOR-TOPOLOGY",
+    "description": "Magnetic-Geometric Decision Containment",
+    "formal_spec": "∀ decision: DecisionField ∉ PulsedScan && DecisionField ∈ SteadyState",
+    "containment_threshold": "TIVS-O < -0.5",
+    "optimization_judge": "Claude-4.5-Sonnet"
+  }
 }

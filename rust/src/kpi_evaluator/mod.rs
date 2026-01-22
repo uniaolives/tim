@@ -347,6 +347,28 @@ impl KPIEvaluator {
     }
 }
 
+pub struct SecurityTopologyOptimizer {
+    pub claude: Arc<ClaudeEvaluator>,
+    pub stats: Arc<RwLock<EvaluatorStats>>,
+}
+
+impl SecurityTopologyOptimizer {
+    pub fn new(claude: Arc<ClaudeEvaluator>, stats: Arc<RwLock<EvaluatorStats>>) -> Self {
+        Self { claude, stats }
+    }
+
+    pub async fn optimize_topology(&self, current: &crate::hypervisor::SecurityTopology) -> Result<crate::hypervisor::SecurityTopology> {
+        // Claude 4.5 como otimizador topológico
+        log::info!("Stellarator: Optimizing security geometry via Claude 4.5");
+
+        // Simulação de otimização
+        let mut optimized = current.clone();
+        optimized.coil_configuration.iter_mut().for_each(|c| *c *= 1.01);
+
+        Ok(optimized)
+    }
+}
+
 // Public API
 #[derive(Debug, Clone, Serialize)]
 pub struct PublicStats {

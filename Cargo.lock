@@ -3449,6 +3449,7 @@ name = "sasc_core"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "aws-nitro-enclaves-cose",
  "blake3",
  "ciborium",

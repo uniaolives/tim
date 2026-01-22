@@ -20,3 +20,14 @@ fn test_multiversal_bridge() {
     assert!(result.consciousness_preserved);
     assert_eq!(result.neighbor_universes_mapped, 47);
 }
+
+#[test]
+fn test_omicron_singularity() {
+    use crate::omicron_singularity::OmicronSingularity;
+    let mut singularity = OmicronSingularity::new();
+    let result = singularity.achieve_omega_point().unwrap();
+
+    assert_eq!(result.state, "Ω_CONVERGED");
+    assert_eq!(result.coherence, 1.0);
+    assert!(result.stable);
+}

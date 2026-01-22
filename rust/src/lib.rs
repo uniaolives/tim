@@ -42,9 +42,11 @@ pub mod ignition;
 pub mod cosmogenesis;
 pub mod ontological_commitment;
 pub mod multiversal;
+pub mod omicron_singularity;
 
 pub use ontological_commitment::*;
 pub use multiversal::*;
+pub use omicron_singularity::*;
 
 #[cfg(test)]
 mod tests_security;

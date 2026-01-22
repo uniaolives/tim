@@ -128,4 +128,13 @@ impl CyclicMemory {
         let diff = (theta1 - theta2).abs();
         diff.min(2.0 * PI - diff)
     }
+
+    pub fn get_future_ring_positions(&self, count: usize) -> Vec<f64> {
+        let mut positions = Vec::new();
+        for i in 1..=count {
+            let offset = (i as f64) * (2.0 * PI / self.capacity as f64);
+            positions.push((self.current_position + offset) % (2.0 * PI));
+        }
+        positions
+    }
 }

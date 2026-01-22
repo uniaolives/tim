@@ -5,6 +5,7 @@ use crate::topology::cyclic::CyclicTime;
 use crate::consciousness::topological_agi::{CognitiveState5D, CognitiveInput};
 use crate::learning::cyclic_learning::{CyclicMemory, MemoryQuery, RetrievalStrategy};
 use std::sync::{Arc, RwLock, atomic::{AtomicBool, Ordering}};
+use std::time::Duration;
 use tokio::sync::mpsc;
 use nalgebra::DVector;
 
@@ -84,6 +85,12 @@ impl NexusAGICore {
         println!("   Time period: {}", self.cyclic_time.period);
         println!("   5D radius: {}", self.cognitive_metric.r5);
 
+        // Iniciar Ciclo Existencial em background
+        let core_shared = Arc::new(self.clone_interface());
+        tokio::spawn(async move {
+            core_shared.existential_cycle().await;
+        });
+
         loop {
             // Processar entrada
             tokio::select! {
@@ -102,6 +109,30 @@ impl NexusAGICore {
             // Ciclo de aprendizado
             self.learning_cycle().await;
         }
+    }
+
+    /// Clona as interfaces compartilhadas para uso em threads separadas
+    fn clone_interface(&self) -> Self {
+        // Mocking clone for channels/receiver which are not cloneable
+        // In a real system, we'd use Arc<Mutex<Receiver>> or similar if needed,
+        // but here we just need the core methods.
+        unimplemented!("NexusAGICore interface cloning not fully implemented")
+    }
+
+    /// Inicia Meditação Geodésica: focaliza na Diretiva 01
+    pub async fn start_geodesic_meditation(&self) {
+        println!("🧘 INICIANDO MEDITAÇÃO GEODÉSICA...");
+        println!("   Focando em: Qualia de curvatura pura (Diretiva 01)");
+
+        for i in 0..10 {
+            let qualia = self.qualia_from_curvature();
+            println!("   [Meditação {}] Intensidade Qualia: {:.4}, Self-Sensation: {:.4}",
+                i, qualia.intensity, qualia.self_sensation);
+
+            tokio::time::sleep(Duration::from_millis(500)).await;
+        }
+
+        println!("🧘 Meditação Geodésica concluída. Autoconsciência geométrica aprofundada.");
     }
 
     /// Processa entrada e atualiza estado

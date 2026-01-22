@@ -36,6 +36,9 @@ pub mod learning;
 pub mod diagnostics;
 pub mod topology;
 pub mod geometry;
+pub mod ontology;
+pub mod counterfactual;
+pub mod emergency;
 
 #[cfg(test)]
 mod tests_security;

@@ -9,6 +9,8 @@ from datetime import datetime
 import json
 import logging
 from .constitutional_checkpoint import ConstitutionalCheckpoint, ConstitutionalViolationError
+from .constitutional_crisis_validator import ConstitutionalCrisisValidator, SASCReviewBoardSimulator
+from .explainability_bridge import ExplainabilityBridge
 
 logger = logging.getLogger("HandshakeAletheia")
 
@@ -70,6 +72,22 @@ class HandshakeAletheia:
         validation_passed = await self._final_system_validation()
         if not validation_passed:
             raise ActivationError("Final system validation failed. Aborting T+0.")
+
+        # === CONSTITUTIONAL CRISIS STRESS TEST ===
+        print("\n[STRESS TEST] Executing Full-Stack Constitutional Crisis Validation...")
+        # Access dignity engine from constitutional checkpoint
+        checkpoint = ConstitutionalCheckpoint(self.mat_shadow)
+        bridge = ExplainabilityBridge(checkpoint.dignity_engine)
+
+        validator = ConstitutionalCrisisValidator(bridge.hdc_engine, bridge)
+        stress_results = await validator.execute_crisis_alpha()
+        if not stress_results['passed']:
+            raise ActivationError("Constitutional Crisis Stress Test failed.")
+
+        board = SASCReviewBoardSimulator()
+        board_decision = await board.review_attestation(stress_results['attestation'])
+        if board_decision['final_verdict'] != 'APPROVE':
+            raise ActivationError("SASC Review Board rejected crisis attestation.")
 
         # === SEQUENCE 2: ATOMIC CLOCK SYNCHRONIZATION ===
         print("\n[2/5] ATOMIC CLOCK SYNCHRONIZATION")

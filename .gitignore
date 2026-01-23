@@ -7,3 +7,5 @@ mobile/rust/target/
 target/
 rust/target/
 sasc-governance/target/
+__pycache__/
+*.pyc

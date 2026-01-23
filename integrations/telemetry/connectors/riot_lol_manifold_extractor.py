@@ -84,10 +84,21 @@ class LoLManifoldExtractor:
 
         return decisions
 
-    def _get_match_timeline(self, match_id): return {}
-    def _classify_decision(self, participant, frame): return "farm"
-    def _infer_teammate_intent(self, pid, frames): return []
-    def _calculate_outcome(self, match_id, timestamp): return 0.0
+    def _get_match_timeline(self, match_id):
+        # Em implementação real, faria requisição à Riot API
+        return {}
+
+    def _classify_decision(self, participant, frame):
+        # Lógica simplificada para classificar a ação atual
+        return "farm"
+
+    def _infer_teammate_intent(self, participant_id, participant_frames):
+        # Lógica para inferir intenção dos aliados
+        return []
+
+    def _calculate_outcome(self, match_id, timestamp):
+        # Lógica para calcular o resultado da decisão
+        return 0.0
 
     def _calculate_social_phi(self, decision: str, team_intents: List[str]) -> float:
         """

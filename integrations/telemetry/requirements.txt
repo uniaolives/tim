@@ -1,23 +1,22 @@
 numpy
 scipy
-sklearn
+scikit-learn
 umap-learn
 networkx
 torch
 transformers
 msgpack
 aiohttp
+requests
 pynput
 pymem
-renderdoc
-steam
-steamworks
-torchdiffeq
+# renderdoc (requires native setup)
+# torch-tensorrt (requires CUDA and specific installation)
 mlflow
 wandb
 kubeflow-pipelines
 prometheus-client
-grafana-api
+# grafana-api (usually grafana-api-python)
 streamlit
 plotly
 pandas

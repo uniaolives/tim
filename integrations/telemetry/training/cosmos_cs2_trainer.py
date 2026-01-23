@@ -16,12 +16,13 @@ import hashlib
 import asyncio
 from dataclasses import dataclass
 
-# Mock imports for demonstration if real ones are missing
+# Mock implementations if real ones are missing in environment
 class CosmosWorldModel(nn.Module):
     def __init__(self, **kwargs):
         super().__init__()
         self.net = nn.Linear(10 + 8, 512)
     def forward(self, obs, act):
+        # Dummy forward pass
         return torch.zeros(obs.shape[0], obs.shape[1], 10).to(obs.device)
 
 class SASCGovernance:
@@ -57,7 +58,7 @@ class Crux86CosmosTrainer:
     def __init__(self,
                  satoshi_seed: str = "0xbd36332890d15e2f360bb65775374b462b",
                  phase: float = 2.5,  # SASC Phase 2.5 (50% bandwidth)
-                 world_size: int = 1): # Simplified for env
+                 world_size: int = 1):  # Simplified for env
         self.satoshi_seed = satoshi_seed
         self.phase = phase
         self.world_size = world_size

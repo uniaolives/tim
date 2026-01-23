@@ -23,3 +23,9 @@ pandas
 prophet
 # Age of Empires II replay parsing
 # aoc-recs
+blake3
+networkx
+msgpack
+scikit-learn
+matplotlib
+pandas

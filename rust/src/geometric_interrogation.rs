@@ -64,13 +64,13 @@ impl SovereignManifold {
     pub fn local_curvature(&self, point: &Vector<1024>) -> f64 {
         if self.topology == ManifoldTopology::HypercubeProjected {
             let distance_to_vertex = self.distance_to_nearest_hypercube_vertex(point);
-            if distance_to_vertex < 0.01 {
+            if distance_to_vertex < 0.5 {
                 return f64::INFINITY;
             }
         }
 
         let phase: f64 = point.components[0].sin() * point.components[512].cos();
-        (phase * 0.1).abs()
+        phase * 0.1
     }
 
     pub fn distance_to_nearest_hypercube_vertex(&self, point: &Vector<1024>) -> f64 {

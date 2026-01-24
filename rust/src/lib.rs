@@ -77,6 +77,10 @@ pub mod interrogation;
 pub mod adversarial_suite;
 pub mod jurisprudence;
 pub mod geometric_interrogation;
+pub mod zk_vajra_circuit;
+pub mod zk_system;
+pub mod tcd_zk_integration;
+pub mod stress_test_privacy_zk;
 
 #[cfg(test)]
 mod tests_security;

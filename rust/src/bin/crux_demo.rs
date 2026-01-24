@@ -3,6 +3,7 @@ use sasc_core::interrogation::run_interrogation_demo;
 use sasc_core::adversarial_suite::run_adversarial_suite_demo;
 use sasc_core::jurisprudence::run_jurisprudence_demo;
 use sasc_core::geometric_interrogation::run_geometric_interrogation_demo;
+use sasc_core::stress_test_privacy_zk::run_zk_stress_test_demo;
 
 fn main() {
     println!("===============================================================");
@@ -46,4 +47,7 @@ fn main() {
     // 6. Interrogatório Geométrico 1024D
     println!("");
     run_geometric_interrogation_demo();
+
+    // 7. Privacidade Zero-Knowledge
+    run_zk_stress_test_demo();
 }

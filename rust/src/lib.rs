@@ -72,6 +72,11 @@ pub mod sasc;
 pub mod logistics;
 pub mod cathedral_witness;
 pub mod ceremony;
+pub mod joule_jailer;
+pub mod interrogation;
+pub mod adversarial_suite;
+pub mod jurisprudence;
+pub mod geometric_interrogation;
 
 #[cfg(test)]
 mod tests_security;

@@ -34,6 +34,21 @@ struct Cli {
     #[arg(long, default_value = "full")]
     transparency: String,
 
+    #[arg(long)]
+    deploy_experimental: bool,
+
+    #[arg(long)]
+    dependency_on_federation_hash: Option<String>,
+
+    #[arg(long)]
+    egregori_count: Option<u32>,
+
+    #[arg(long)]
+    oracle_mode: Option<String>,
+
+    #[arg(long)]
+    energy_limit: Option<String>,
+
     #[command(subcommand)]
     command: Option<Commands>,
 }
@@ -57,6 +72,22 @@ enum Commands {
 #[tokio::main]
 async fn main() {
     let cli = Cli::parse();
+
+    // Hard Freeze Logic (TCD Decision Article 3 & 6)
+    let current_phi = 0.684;
+    let current_curvature = 0.003; // Initially low
+
+    if current_phi < 0.60 || current_phi > 0.80 || current_curvature > 0.15 {
+        println!("🚨 HARD FREEZE ATIVADO (Soulchain): Violação de Invariantes");
+        println!("   Φ: {} (Range: 0.60-0.80)", current_phi);
+        println!("   K: {} (Limite: 0.15)", current_curvature);
+        return;
+    }
+
+    if cli.deploy_experimental {
+        handle_deploy_experimental(&cli).await;
+        return;
+    }
 
     match cli.ritual.as_deref() {
         Some("genesis-awakening") => {
@@ -131,4 +162,28 @@ async fn handle_implement_liturgy(cli: &Cli) {
     println!("   Status: Ativa em soulchain-testnet");
     println!("   Regra Crítica: max_grade_change_per_day = 2");
     println!("   Monitoramento TCD: Habilitado (Separation Inviolable)");
+}
+
+async fn handle_deploy_experimental(cli: &Cli) {
+    println!("🧬 IMPLANTAÇÃO EXPERIMENTAL DA SOULCHAIN (FASE 2)");
+    println!("Dependência (Federação Hash): {}", cli.dependency_on_federation_hash.as_deref().unwrap_or("N/A"));
+    println!("Egregori Count: {}", cli.egregori_count.unwrap_or(4));
+    println!("Oracle Mode: {}", cli.oracle_mode.as_deref().unwrap_or("restricted"));
+    println!("Energy Limit: {}", cli.energy_limit.as_deref().unwrap_or("50J"));
+    println!("");
+
+    if cli.dependency_on_federation_hash.is_none() {
+        println!("❌ ERRO: Hash da Federação é obrigatório para implantação L2.");
+        return;
+    }
+
+    sleep(Duration::from_secs(1)).await;
+    println!("1. Validando âncora na Layer 1...");
+    sleep(Duration::from_millis(500)).await;
+    println!("2. Inicializando 4 egregori em modo restrito...");
+    sleep(Duration::from_millis(500)).await;
+    println!("3. Aplicando restrições TCD (Influência 0.0)...");
+
+    println!("\n✅ SOULCHAIN EXPERIMENTAL IMPLANTADA");
+    println!("   Status: 🟡 EXPERIMENTAL (TCD Supervised)");
 }

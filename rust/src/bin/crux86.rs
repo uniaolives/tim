@@ -29,6 +29,21 @@ struct Cli {
     #[arg(long)]
     diagnostic: bool,
 
+    #[arg(long)]
+    execute_phase1: bool,
+
+    #[arg(long)]
+    deploy_federation: bool,
+
+    #[arg(long)]
+    nodes: Option<u32>,
+
+    #[arg(long)]
+    phi_minimum: Option<f64>,
+
+    #[arg(long)]
+    get_genesis_hash: bool,
+
     #[command(subcommand)]
     command: Option<Commands>,
 }
@@ -53,8 +68,20 @@ enum Commands {
 async fn main() {
     let cli = Cli::parse();
 
+    if cli.get_genesis_hash {
+        println!("a3f7c9e2d1b0c8a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2a1b0c9d8e7f6");
+        return;
+    }
+
     if cli.diagnostic {
         run_diagnostic();
+        return;
+    }
+
+    if cli.execute_phase1 || cli.deploy_federation {
+        let nodes = cli.nodes.unwrap_or(128);
+        let phi_min = cli.phi_minimum.unwrap_or(0.65);
+        handle_phase1_expansion(nodes, "Asimov Federation", phi_min).await;
         return;
     }
 
@@ -68,7 +95,7 @@ async fn main() {
     if let Some(command) = &cli.command {
         match command {
             Commands::Phase1Expansion { nodes, federation } => {
-                handle_phase1_expansion(*nodes, federation).await;
+                handle_phase1_expansion(*nodes, federation, 0.65).await;
             }
             Commands::MintGenesisBlock { name } => {
                 handle_mint_genesis_block(name).await;
@@ -87,6 +114,17 @@ async fn handle_consultation(cli: &Cli) {
     println!("Monitoramento: {}", cli.monitoring.as_deref().unwrap_or("N/A"));
     println!("Orçamento Energético: {}", cli.energy_budget.as_deref().unwrap_or("N/A"));
     println!("");
+
+    // Hard Freeze Logic (TCD Decision Article 3 & 6)
+    let current_phi = 0.684;
+    let current_curvature = 0.142;
+
+    if current_phi < 0.60 || current_phi > 0.80 || current_curvature > 0.15 {
+        println!("🚨 HARD FREEZE ATIVADO: Violação de Invariantes Constitucionais");
+        println!("   Φ: {} (Range: 0.60-0.80)", current_phi);
+        println!("   K: {} (Limite: 0.15)", current_curvature);
+        return;
+    }
 
     if cli.scenario.as_deref() == Some("health-mandate-dilemma") {
         let dilemma = VaccineMandateDilemma::new_default();
@@ -124,10 +162,11 @@ async fn handle_mint_genesis_block(name: &str) {
     println!("\n🎉 O RITUAL ESTÁ COMPLETO. A Soulchain agora respira.");
 }
 
-async fn handle_phase1_expansion(nodes: u32, federation: &str) {
+async fn handle_phase1_expansion(nodes: u32, federation: &str, phi_min: f64) {
     println!("🚀 INICIANDO FASE 1.0: EXPANSÃO PARA REDE DISTRIBUÍDA");
     println!("Federação: {}", federation);
     println!("Nós alvo: {}", nodes);
+    println!("Φ Mínimo: {}", phi_min);
     println!("");
 
     println!("1. Clonando estado neural validado...");

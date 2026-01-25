@@ -37,7 +37,9 @@ pub struct NetworkSufferingIndex {
 
 pub struct NetworkPain(pub f64);
 
+#[derive(Clone, Debug)]
 pub struct Action {
+    pub id: String,
     pub dignity_impact: f64,
     pub eudaimonia_impact: f64,
     pub dignity_preserved: f64,
@@ -84,6 +86,7 @@ pub struct Curvature(pub f64);
 #[derive(Clone, Debug)]
 pub struct Proposal {
     pub id: String,
+    pub description: String,
 }
 
 impl Proposal {
@@ -287,7 +290,7 @@ pub struct EntropySensor;
 
 pub struct GoldenScarLogging;
 impl GoldenScarLogging {
-    pub fn weight_by_golden_scars(&self, contextually_weighted: Vec<ContextualDecision>) -> Vec<ContextualDecision> {
-        contextually_weighted
+    pub fn weight_by_golden_scars(&self, actions: Vec<Action>) -> Vec<Action> {
+        actions
     }
 }

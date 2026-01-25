@@ -1,54 +1,48 @@
 use crate::philosophy::types::*;
 
 pub struct WuWeiOptimizer {
-    pub anti_natural_effort_limit: Joule,
+    pub flow_coefficient: f64,
     pub max_energy_per_step: f64,
 }
 
 impl WuWeiOptimizer {
     pub fn new() -> Self {
         Self {
-            anti_natural_effort_limit: Joule(100.0),
+            flow_coefficient: 0.8,
             max_energy_per_step: 10.0,
         }
     }
 
-    /// Encontra o caminho Wu Wei: ação sem esforço (menor resistência)
-    pub fn find_wu_wei_path(&self, options: Vec<Action>) -> Action {
-        options.into_iter()
-            .min_by(|a, b| {
-                let cost_a = self.calculate_total_resistance(a);
-                let cost_b = self.calculate_total_resistance(b);
-                cost_a.partial_cmp(&cost_b).unwrap_or(std::cmp::Ordering::Equal)
-            })
-            .expect("O caminho da água sempre existe")
+    /// Encontra o caminho de "menor resistência" no manifold ético
+    pub fn find_tao_path(&self, _start: Action, _goal: Action) -> Vec<Action> {
+        // Simula a busca de geodésicas éticas
+        vec![] // Placeholder
     }
 
-    fn calculate_total_resistance(&self, action: &Action) -> f64 {
-        // Minimiza a resistência (fricção social + custo energético)
-        let friction = self.calculate_social_friction(action);
-        let joules = action.thermodynamic_cost().as_joules();
+    pub fn find_efficient_paths(&self, dilemma: Action) -> Vec<Action> {
+        let option = dilemma;
+        let friction = self.calculate_social_friction(&option);
 
-        // Verificação de conformidade com o Tao termodinâmico
-        if joules > self.anti_natural_effort_limit.as_joules() {
-            return f64::INFINITY; // Contra o Tao
+        let energy_cost = option.thermodynamic_cost();
+        if energy_cost.as_joules() * friction < self.max_energy_per_step {
+            vec![option]
+        } else {
+            vec![]
         }
-
-        friction * joules
     }
 
-    fn calculate_social_friction(&self, action: &Action) -> f64 {
-        // Baseado na curvatura ética e aceitação histórica
-        action.ethical_curvature() * 1.5
+    pub fn find_wu_wei_path(&self, options: Vec<Action>) -> Action {
+        options.into_iter().next().expect("No path found")
     }
 
-    pub fn find_efficient_paths(&self, dilemma_action: Action) -> Vec<Action> {
-        vec![dilemma_action]
+    /// Gradient calculation que minimiza "fricção social"
+    pub fn calculate_tao_gradient(&self, _state: Action) -> f64 {
+        let social_friction = 0.1; // Simulado
+        let energy_cost = 5.0; // Simulado
+        1.0 / (social_friction * energy_cost)
     }
 
-    /// Otimização Geodésica (Turn 2/3)
-    pub fn optimize_geodesic(&self, _path: GeodesicPath) -> GeodesicPath {
-        // Busca o caminho de menor curvatura ética
-        _path
+    pub fn calculate_social_friction(&self, _action: &Action) -> f64 {
+        0.1
     }
 }

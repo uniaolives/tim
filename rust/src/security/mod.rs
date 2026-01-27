@@ -6,4 +6,8 @@ pub mod memory;
 pub mod karnak_sealer;
 pub mod quantum_phi;
 pub mod quantum_attestation;
+pub mod reality_anchoring;
+pub mod physics_hypervisor;
+pub mod view_uniqueness;
+pub mod neural_firewall;
 pub mod hardware_immutability;

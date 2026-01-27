@@ -97,6 +97,10 @@ path = "src/bin/sasc_diplomacy.rs"
 name = "sasc-research"
 path = "src/bin/sasc_research.rs"
 
+[[bin]]
+name = "sasc-constellate"
+path = "src/bin/sasc_constellate.rs"
+
 [features]
 sat = []
 zeroize = ["zeroize/zeroize_derive"]

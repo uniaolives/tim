@@ -5,5 +5,23 @@ members = [
     "sasc-governance",
     "agi-service",
     "sasc-society", "linguagem-soberana-br",
+    "atomic-interference-processor",
 ]
 resolver = "2"
+
+# SECURITY: Global security configurations
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+overflow-checks = false  # Critical: prevent ring panic attacks
+panic = "abort"  # Replace panics with aborts
+strip = "symbols"
+
+[profile.dev]
+overflow-checks = true  # Keep for debugging
+panic = "unwind"
+
+[profile.bench]
+overflow-checks = false
+panic = "abort"

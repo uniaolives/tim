@@ -16,6 +16,12 @@ make
 ./tire <bytecode_file.tim>
 ```
 
+## SASC - Sovereign Autonomous System Core
+
+This repository also hosts the SASC (v31.2-Ω) codebase, which implements:
+- **Imperium Continuous Mode**: Autonomous governance and 7.83Hz heartbeat.
+- **TelegramConstellate**: SimHash-based co-occurrence network analysis for content circulation tracking, based on research by Rocha et al. (2025). See `TELEGRAM_CONSTELLATE.md` for details.
+
 Example of hello world in assembly:
 ```asm
 @imp "stddefs.tash"

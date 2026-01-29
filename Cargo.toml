@@ -5,7 +5,7 @@ members = [
     "sasc-governance",
     "agi-service",
     "sasc-society", "linguagem-soberana-br",
-    "atomic-interference-processor",
+    "atomic-interference-processor", "agentic_seek_mvp/rust_sentry",
 ]
 resolver = "2"
 
